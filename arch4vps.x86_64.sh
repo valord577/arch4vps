@@ -72,18 +72,6 @@ fi
 debug "root block: ${ROOT_BLK}"
 
 prtln "..."
-# Confirm the path of 'grub.cfg'
-GRUB_CFG="/boot/grub/grub.cfg"
-prtln "By default, GRUB is installed at:"
-prtln "  > ${GRUB_CFG}"
-focus "Where would you like to install?"
-read -p "  > (if empty, use default): " GRUB_CFG_IN
-if [ "${GRUB_CFG_IN}" != "" ]; then
-  GRUB_CFG=${GRUB_CFG_IN}
-fi
-debug "grub.cfg path: ${GRUB_CFG}"
-
-prtln "..."
 # Confirm the mirror of arch linux
 MIRROR="https://mirrors.bfsu.edu.cn/archlinux"
 prtln "By default, use mirror:"
@@ -176,7 +164,7 @@ cp -fd "/root.${cpu_arch}/etc/localtime" "/etc"
 echo -n "root:${PASSWORD}" | chpasswd
 # -- grub install
 grub-install --target=i386-pc --recheck --force "${ROOT_BLK}"
-grub-mkconfig -o "${GRUB_CFG}"
+grub-mkconfig -o "/boot/grub/grub.cfg"
 # -- dhcp
 cat > '/etc/systemd/network/en.network' <<-'EOF'
 [Match]
