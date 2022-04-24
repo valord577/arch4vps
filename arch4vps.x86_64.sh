@@ -149,7 +149,10 @@ ls -d -- /* | grep -v "\(dev\|proc\|sys\|root.${cpu_arch}\|run\)" | xargs rm -rf
 /root.${cpu_arch}/usr/lib/ld-*.so.2 --library-path "/root.${cpu_arch}/usr/lib" \
   /root.${cpu_arch}/usr/bin/chroot "/root.${cpu_arch}" pacstrap -M /mnt base linux linux-firmware grub vim openssh
 # -- dns
-cp -fL "/root.${cpu_arch}/etc/resolv.conf" "/etc"
+cat > '/etc/systemd/network/en.network' <<-'EOF'
+# Resolver configuration file.
+# See resolv.conf(5) for details.
+EOF
 # -- locale
 echo -e "en_US.UTF-8 UTF-8" >> "/etc/locale.gen"
 echo -e "LC_ALL=en_US.UTF-8" > "/etc/locale.conf"
@@ -187,6 +190,7 @@ EOF
 sed -i '/^#PermitRootLogin/c PermitRootLogin yes' /etc/ssh/sshd_config
 # -- systemd
 systemctl enable systemd-networkd
+systemctl enable systemd-resolved
 systemctl enable sshd
 
 # Finalize
