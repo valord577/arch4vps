@@ -102,22 +102,8 @@ done
 prtln "" && cd /
 
 prtln "..."
-# Get archlinux bootstrap filename
-sha1sums=$(curl ${CURL_EXTRA_PARAMS} --url "${MIRROR}/iso/latest/sha1sums.txt")
-debug "sha1sums: "
-debug "  >>>"
-debug "${sha1sums}"
-debug "  <<<"
-
-arch_date_tgz=${sha1sums##*'archlinux-bootstrap-'}
-BOOTSTRAP="archlinux-bootstrap-${arch_date_tgz}"
-if [ "${arch_date_tgz##*${cpu_arch}}" != ".tar.gz" ]; then
-  abort "Unknown bootstrap file: '${BOOTSTRAP}'"
-fi
-prtln "Bootstrap file: '${BOOTSTRAP}'"
-
-prtln "..."
 # Download bootstrap file and extract
+BOOTSTRAP="archlinux-bootstrap-x86_64.tar.gz"
 curl ${CURL_EXTRA_PARAMS} --url "${MIRROR}/iso/latest/${BOOTSTRAP}" -o "${BOOTSTRAP}"
 tar -zxp -f "${BOOTSTRAP}" -C "/"
 # -- dns
