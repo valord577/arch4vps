@@ -95,7 +95,7 @@ prtln "" && prtln "..."
 
 prtln "..."
 # Download bootstrap file and extract
-BOOTSTRAP="archlinux-bootstrap-x86_64.tar.gz"
+BOOTSTRAP="archlinux-bootstrap-x86_64.tar.zst"
 curl -fsSL --url "${MIRROR}/iso/latest/${BOOTSTRAP}" -o "${BOOTSTRAP}"
 
 arch_rootfs="archlinux-bootstrap-rootfs"
